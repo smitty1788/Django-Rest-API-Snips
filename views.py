@@ -1,6 +1,4 @@
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404
 from helpdesk.models import Ticket
 from projects.models import Projects
 from django_pandas.io import read_frame
@@ -67,7 +65,7 @@ def projects_list(request):
     
     today = datetime.datetime.today() + datetime.timedelta(days=1)
     year_ago = datetime.datetime.today() - datetime.timedelta(days=365)
-    projects = Projects.objects.prefetch_related("contact", "account","assigned_to").filter(start_date__range=(year_ago, today))
+    projects = Projects.objects.prefetch_related("contact", "account", "assigned_to").filter(start_date__range=(year_ago, today))
     serializer = ProjectsSerializer(projects, many=True)
     
     return JsonResponse(serializer.data, safe=False)
@@ -80,26 +78,3 @@ def projects_detailed_api(request, pk):
     serializer = ProjectDetailsSerializer(opportunity_record, many=True)
     
     return JsonResponse(serializer.data, safe=False)
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
